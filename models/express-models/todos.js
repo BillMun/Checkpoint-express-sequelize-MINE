@@ -17,22 +17,44 @@ module.exports = {
 
   // ==== COMPLETE THE FOLLOWING (SEE `model.js` TEST SPEC) =====
   listPeople: function () {
-    // returns an array of all people for whom tasks exist
+    let people = []
+    for(let key in tasks){
+      people.push(key)
+    }
+    return people
   },
 
   add: function (name, task) {
-    // saves a task for a given person
-  },
+    if(tasks[name]===undefined){
+    tasks[name]=[task]
+      if(tasks[name][0].complete===undefined){
+        tasks[name][0].complete = false
+    }
+  }else{
+    let valueArr = tasks[name]
+    valueArr.push(task)
+  }
+  let valueArr = tasks[name]
+  valueArr.forEach(elem=>{
+    if(elem.complete===undefined) elem.complete=false
+  })
+
+},
 
   list: function (name) {
-    // returns tasks for specified person
+     for(let key in tasks){
+      if(key===name){
+      return tasks[key]
+     }
+    }
   },
 
   complete: function (name, idx) {
-    // marks a task complete
+    tasks[name][idx].complete = true
   },
 
   remove: function (name, idx) {
-    // removes a tasks
+    let tasksArr = tasks[name]
+    tasksArr.splice(idx,1)
   },
 };
