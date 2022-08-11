@@ -6,6 +6,8 @@ module.exports = router;
 
 // write your routes here. Feel free to split into multiple files if you like.
 
+
+//I was passing all test specs but was getting a weird error message about 'cannon set headers...'.  seems that returning the res.send resolved that error.
 router.post('/:name/tasks', async (req,res,next)=>{
     try{
         const body = await req.body
@@ -28,7 +30,7 @@ router.put('/:name/tasks/:index', async (req,res,next)=>{
         const idx = req.params.index
         const complete = await todos.complete(name,idx)
         return res.sendStatus(200)
-        done()
+
     }
     catch(e){
         next(e)
@@ -41,7 +43,6 @@ router.delete('/:name/tasks/:index', async (req, res, next)=>{
         const idx = req.params.index
         const remove = await todos.remove(name,idx)
         return res.sendStatus(204)
-        done()
     }
     catch(e){
         next(e)
@@ -71,4 +72,3 @@ router.get('/:name/tasks', async(req,res,next)=>{
         next(e)
     }
 })
-
