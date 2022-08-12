@@ -63,12 +63,34 @@ router.get('/:name/tasks', async(req,res,next)=>{
     try{
         let name = req.params.name
         const taskList = await todos.list(name)
-        if(taskList===undefined){
+        if(req.query.status==='complete'){
+            const completeTask = taskList.filter(elem=>{
+                if(elem.complete) return elem})
+                console.log(completeTask)
+                return res.send(completeTask)
+        }else if(req.query.status==='active'){
+            const activeTask = taskList.filter(elem=>{
+                if(!elem.complete)return elem})
+                return res.send(activeTask)
+        }
+        else if(taskList===undefined){
         res.status(404)
         }
-       res.send(taskList)
+        res.send(taskList)
     }
     catch (e){
         next(e)
     }
 })
+
+// router.get('/:name/tasks:?key=value', async(req,res,next)=>{
+//     try{
+//         let name = req.params.name
+//         const completeTask = await todos.list(name).filter(elem=>{if(elem.complete===true) return elem})
+//         console.log(completeTask)
+//         res.send(completeTask)
+//     }
+//     catch (e){
+//         next(e)
+//     }
+// })
